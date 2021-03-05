@@ -1,0 +1,61 @@
+<template>
+<!-- @はv-onの省略記号。.preventはイベント修飾詞で、submit時にリロードされるのを防ぐ。 -->
+<form :class="classList" @submit.prevent="addList">
+    <input v-model="title"
+            type="text"
+            class="text-input"
+            placeholder="Add new list"
+            @focusin="startEditing"
+            @focusout="finishEditing"
+    >
+    <button type="submit"
+            class="add-button"
+            v-if="isEditing || titleExists">
+        Add
+    </button>
+</form>
+</template>
+
+<script>
+export default {
+    data: function() {
+        return {
+            title: '',
+            isEditing: false,
+        }
+    },
+    computed: {
+        classList() {
+            const classList = ['addlist']
+
+            // 入力欄を活性化させると、activeクラスがbuttonタグに入る。
+            // 入力欄をクリックすると、addボタンが表示される
+            if (this.isEditing) {
+                classList.push('active')
+            }
+            // 文字を入力すると、addボタンが緑色に変化する。
+            if (this.titleExists) {
+                classList.push('addable')
+            }
+
+            return classList
+    },
+        titleExists() {
+            return this.title.length > 0
+    },
+},
+    methods: {
+        addList: function() {
+            this.$store.dispatch('addlist', { title: this.title })
+            this.title = ''
+        },
+        startEditing() {
+        this.isEditing = true
+        },
+        finishEditing() {
+            this.isEditing = false
+        },
+    },
+    
+}
+</script>
