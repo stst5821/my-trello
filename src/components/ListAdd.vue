@@ -26,6 +26,7 @@ export default {
     },
     computed: {
         classList() {
+            
             const classList = ['addlist']
 
             // 入力欄を活性化させると、activeクラスがbuttonタグに入る。
@@ -37,7 +38,6 @@ export default {
             if (this.titleExists) {
                 classList.push('addable')
             }
-
             return classList
     },
         titleExists() {
